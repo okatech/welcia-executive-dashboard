@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcia Executive Growth Dashboard</title>
+  <title>Welcia Board Dashboard</title>
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
@@ -24,11 +24,11 @@
       --cp-text: #242424;
       --cp-text-muted: #5c5c5c;
       --cp-text-soft: #6f6f6f;
-      --cp-accent: #b11f4b;
-      --cp-accent-hover: #9a1a41;
-      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent: #0086CD;
+      --cp-accent-hover: #006fa9;
+      --cp-accent-soft: rgba(0, 134, 205, 0.1);
       --cp-accent-fg: #ffffff;
-      --cp-success: #16a34a;
+      --cp-success: #71C704;
       --cp-danger: #dc2626;
       --cp-warning: #f59e0b;
       --cp-link: #0078d4;
@@ -37,7 +37,10 @@
       --cp-panel: rgba(255, 255, 255, 0.86);
       --cp-panel-strong: rgba(255, 255, 255, 0.96);
       --cp-sheen: rgba(255, 255, 255, 0.55);
-      --cp-highlight: rgba(177, 31, 75, 0.12);
+      --cp-highlight: rgba(117, 184, 232, 0.2);
+      --cp-welcia-blue: #0086CD;
+      --cp-welcia-blue-soft: #75B8E8;
+      --cp-welcia-green: #71C704;
     }
     html[data-theme="dark"] {
       color-scheme: dark;
@@ -50,11 +53,11 @@
       --cp-text: #dedede;
       --cp-text-muted: #919191;
       --cp-text-soft: #b0b0b0;
-      --cp-accent: #fd8ea1;
-      --cp-accent-hover: #fb7b91;
-      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent: #75B8E8;
+      --cp-accent-hover: #8fc9f1;
+      --cp-accent-soft: rgba(117, 184, 232, 0.14);
       --cp-accent-fg: #1a1a1a;
-      --cp-success: #4ade80;
+      --cp-success: #71C704;
       --cp-danger: #f87171;
       --cp-warning: #fbbf24;
       --cp-link: #4da6ff;
@@ -63,214 +66,279 @@
       --cp-panel: rgba(41, 41, 41, 0.72);
       --cp-panel-strong: rgba(41, 41, 41, 0.96);
       --cp-sheen: rgba(255, 255, 255, 0.04);
-      --cp-highlight: rgba(253, 142, 161, 0.12);
+      --cp-highlight: rgba(117, 184, 232, 0.12);
+      --cp-welcia-blue: #75B8E8;
+      --cp-welcia-blue-soft: #0086CD;
+      --cp-welcia-green: #71C704;
     }
 
-    * {
-      box-sizing: border-box;
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
+      min-height: 100vh;
       background: var(--cp-bg);
       color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.45;
+      line-height: 1.42;
     }
 
-    button,
-    input,
-    select {
+    button {
       font: inherit;
     }
 
-    .app {
+    .shell {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
     }
 
-    .sidebar {
+    .brand-strip {
+      height: 8px;
+      display: grid;
+      grid-template-columns: 7fr 2fr 1fr;
+    }
+
+    .brand-strip span:nth-child(1) { background: var(--cp-welcia-blue); }
+    .brand-strip span:nth-child(2) { background: var(--cp-welcia-blue-soft); }
+    .brand-strip span:nth-child(3) { background: var(--cp-welcia-green); }
+
+    header {
       position: sticky;
       top: 0;
-      height: 100vh;
-      padding: 24px;
-      background: var(--cp-bg-elevated);
-      border-right: 1px solid var(--cp-border);
+      z-index: 5;
+      padding: 16px 28px;
+      background: var(--cp-panel-strong);
+      border-bottom: 1px solid var(--cp-border);
     }
 
-    .brand {
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
+      justify-content: space-between;
+      gap: 20px;
     }
 
-    .brand-mark {
-      width: 44px;
-      height: 44px;
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
       display: grid;
       place-items: center;
       border-radius: 16px;
-      background: var(--cp-accent);
+      background: var(--cp-welcia-blue);
       color: var(--cp-accent-fg);
-      font-weight: 800;
-      letter-spacing: -0.04em;
+      font-weight: 900;
+      font-size: 26px;
+      letter-spacing: -0.08em;
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 17px;
-      line-height: 1.1;
+    .wordmark strong {
+      display: block;
+      font-size: 18px;
+      letter-spacing: -0.03em;
     }
 
-    .brand p {
-      margin: 3px 0 0;
+    .wordmark span {
       color: var(--cp-text-muted);
       font-size: 12px;
     }
 
     .nav {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
     }
 
     .nav a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-height: 42px;
-      padding: 10px 12px;
+      padding: 8px 13px;
       color: var(--cp-text-muted);
       text-decoration: none;
-      border-radius: 0.625rem;
-      border: 1px solid transparent;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .nav a.active,
     .nav a:hover {
-      background: var(--cp-accent-soft);
-      color: var(--cp-text);
-      border-color: var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-welcia-blue);
     }
 
-    .nav-icon {
-      width: 24px;
-      height: 24px;
+    main {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .hero {
       display: grid;
-      place-items: center;
-      color: var(--cp-accent);
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
     }
 
-    .side-card {
-      padding: 16px;
+    .hero-card,
+    .card {
       background: var(--cp-surface);
       border: 1px solid var(--cp-border);
       border-radius: 16px;
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
 
-    .side-card .label {
-      margin: 0 0 8px;
-      color: var(--cp-text-muted);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 32px;
+      min-height: 300px;
     }
 
-    .side-card strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 22px;
+    .hero-card::before,
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
     }
 
-    .side-card p {
-      margin: 0;
-      color: var(--cp-text-muted);
-      font-size: 13px;
+    .hero-card::before {
+      width: 340px;
+      height: 340px;
+      right: -130px;
+      top: -140px;
+      background: var(--cp-highlight);
     }
 
-    main {
-      min-width: 0;
-      padding: 28px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 24px;
+    .hero-card::after {
+      width: 180px;
+      height: 180px;
+      right: 52px;
+      bottom: -88px;
+      background: var(--cp-accent-soft);
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
-      padding: 6px 10px;
-      color: var(--cp-accent);
-      background: var(--cp-accent-soft);
+      margin-bottom: 18px;
+      padding: 7px 11px;
       border: 1px solid var(--cp-border);
       border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-welcia-blue);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
-    .topbar h2 {
+    h1 {
+      position: relative;
+      z-index: 1;
       margin: 0;
       max-width: 900px;
-      font-size: clamp(30px, 5vw, 56px);
-      line-height: 1;
-      letter-spacing: -0.055em;
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: 0.92;
+      letter-spacing: -0.075em;
     }
 
-    .topbar p {
-      margin: 12px 0 0;
-      max-width: 780px;
-      color: var(--cp-text-muted);
-      font-size: 16px;
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+      max-width: 860px;
     }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    .btn {
-      min-height: 40px;
-      padding: 9px 14px;
+    .mini {
+      padding: 14px;
+      background: var(--cp-surface-soft);
       border: 1px solid var(--cp-border);
-      border-radius: 0.625rem;
-      background: var(--cp-surface);
-      color: var(--cp-text);
-      cursor: pointer;
+      border-radius: 16px;
     }
 
-    .btn.primary {
-      border-color: var(--cp-accent);
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
+    .mini b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 18px;
+      color: var(--cp-welcia-blue);
     }
 
-    .btn:hover {
-      border-color: var(--cp-border-strong);
+    .mini span {
+      color: var(--cp-text-muted);
+      font-size: 12px;
     }
 
-    .btn.primary:hover {
-      background: var(--cp-accent-hover);
+    .decision {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .decision h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.04em;
+    }
+
+    .decision p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 14px;
+    }
+
+    .decision-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .decision-item {
+      padding: 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
+    }
+
+    .decision-item strong {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .decision-item span {
+      color: var(--cp-text-muted);
+      font-size: 12px;
     }
 
     .toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 18px;
       padding: 12px;
       background: var(--cp-panel-strong);
@@ -279,7 +347,7 @@
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
 
-    .segmented {
+    .segments {
       display: flex;
       gap: 6px;
       padding: 4px;
@@ -288,79 +356,88 @@
       border-radius: 0.625rem;
     }
 
-    .segmented button {
-      padding: 7px 12px;
-      border: 0;
+    .segments button,
+    .button {
+      min-height: 40px;
+      padding: 8px 13px;
+      border: 1px solid var(--cp-border);
       border-radius: 0.625rem;
-      background: transparent;
-      color: var(--cp-text-muted);
+      background: var(--cp-surface);
+      color: var(--cp-text);
       cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
     }
 
-    .segmented button.active {
-      background: var(--cp-accent);
+    .segments button {
+      min-height: 34px;
+      border: 0;
+      background: transparent;
+      color: var(--cp-text-muted);
+    }
+
+    .segments button.active,
+    .button.primary {
+      background: var(--cp-welcia-blue);
       color: var(--cp-accent-fg);
     }
 
-    .period {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .button.primary {
+      border-color: var(--cp-welcia-blue);
+    }
+
+    .meta {
       color: var(--cp-text-muted);
       font-size: 13px;
     }
 
-    .grid {
-      display: grid;
-      gap: 16px;
-    }
-
     .kpi-grid {
+      display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-bottom: 16px;
-    }
-
-    .card {
-      background: var(--cp-surface);
-      border: 1px solid var(--cp-border);
-      border-radius: 16px;
-      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+      gap: 14px;
+      margin-bottom: 18px;
     }
 
     .kpi {
       padding: 18px;
-      position: relative;
       overflow: hidden;
+      position: relative;
     }
 
     .kpi::after {
       content: "";
       position: absolute;
-      inset: auto -32px -48px auto;
-      width: 128px;
-      height: 128px;
+      right: -46px;
+      bottom: -56px;
+      width: 132px;
+      height: 132px;
       border-radius: 999px;
       background: var(--cp-highlight);
     }
 
-    .kpi .name {
+    .kpi-label {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 10px;
       color: var(--cp-text-muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .kpi .value {
-      margin: 14px 0 8px;
-      font-size: 34px;
+      font-size: 12px;
       font-weight: 800;
-      letter-spacing: -0.04em;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
-    .kpi .note {
+    .kpi-value {
+      margin: 12px 0 8px;
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .kpi-note {
+      position: relative;
+      z-index: 1;
       color: var(--cp-text-muted);
       font-size: 13px;
     }
@@ -369,35 +446,34 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 7px;
+      padding: 4px 8px;
       border-radius: 999px;
       background: var(--cp-surface-soft);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .delta.up {
       color: var(--cp-success);
+      font-size: 12px;
+      font-weight: 900;
     }
 
-    .delta.down {
-      color: var(--cp-danger);
-    }
+    .delta.warn { color: var(--cp-warning); }
+    .delta.risk { color: var(--cp-danger); }
 
-    .delta.warn {
-      color: var(--cp-warning);
-    }
-
-    .main-grid {
+    .dashboard {
+      display: grid;
       grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.65fr);
+      gap: 18px;
       align-items: start;
     }
 
-    .panel {
-      padding: 18px;
+    .stack {
+      display: grid;
+      gap: 18px;
     }
 
-    .panel-header {
+    .panel {
+      padding: 20px;
+    }
+
+    .panel-head {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -407,8 +483,8 @@
 
     .panel h3 {
       margin: 0;
-      font-size: 18px;
-      letter-spacing: -0.02em;
+      font-size: 19px;
+      letter-spacing: -0.035em;
     }
 
     .panel .sub {
@@ -417,9 +493,22 @@
       font-size: 13px;
     }
 
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+      color: var(--cp-welcia-blue);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
     .chart {
       width: 100%;
-      height: 320px;
+      height: 330px;
       overflow: visible;
     }
 
@@ -436,190 +525,144 @@
 
     .line-main {
       fill: none;
-      stroke: var(--cp-accent);
+      stroke: var(--cp-welcia-blue);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .line-soft {
+      fill: none;
+      stroke: var(--cp-welcia-green);
       stroke-width: 4;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    .line-secondary {
-      fill: none;
-      stroke: var(--cp-border-strong);
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .area {
+      fill: var(--cp-highlight);
     }
 
     .dot {
-      fill: var(--cp-accent);
+      fill: var(--cp-welcia-blue);
       stroke: var(--cp-surface);
-      stroke-width: 3;
+      stroke-width: 4;
     }
 
     .bar {
-      fill: var(--cp-accent);
+      fill: var(--cp-welcia-blue);
     }
 
-    .bar-muted {
-      fill: var(--cp-border);
+    .bar-soft {
+      fill: var(--cp-welcia-blue-soft);
     }
 
-    .two-col {
-      grid-template-columns: 1fr 1fr;
+    .bar-green {
+      fill: var(--cp-welcia-green);
     }
 
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    .table th,
-    .table td {
-      padding: 12px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--cp-border);
-    }
-
-    .table th {
-      color: var(--cp-text-muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .table tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .rank {
-      display: inline-grid;
-      place-items: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 0.625rem;
-      background: var(--cp-accent-soft);
-      color: var(--cp-accent);
-      font-weight: 800;
-    }
-
-    .progress {
-      height: 8px;
-      overflow: hidden;
-      background: var(--cp-surface-soft);
-      border: 1px solid var(--cp-border);
-      border-radius: 999px;
-    }
-
-    .progress > span {
-      display: block;
-      height: 100%;
-      width: var(--value);
-      background: var(--cp-accent);
-      border-radius: 999px;
-    }
-
-    .insight-list {
+    .matrix {
       display: grid;
-      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    .insight {
-      padding: 14px;
+    .driver {
+      padding: 15px;
+      background: var(--cp-surface-soft);
       border: 1px solid var(--cp-border);
       border-radius: 16px;
-      background: var(--cp-surface-soft);
     }
 
-    .insight strong {
+    .driver strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+
+    .driver .score {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-      font-size: 14px;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+      color: var(--cp-welcia-blue);
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
     }
 
-    .insight p {
+    .driver .score small {
+      color: var(--cp-text-muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .driver p {
       margin: 0;
       color: var(--cp-text-muted);
       font-size: 13px;
     }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: var(--cp-accent-soft);
-      color: var(--cp-accent);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .risk {
+    .action-list {
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+    }
+
+    .action {
+      display: grid;
+      grid-template-columns: 42px 1fr;
       gap: 12px;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--cp-border);
+      padding: 13px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface-soft);
     }
 
-    .risk:last-child {
-      border-bottom: 0;
-    }
-
-    .risk-score {
+    .action-no {
       width: 42px;
       height: 42px;
       display: grid;
       place-items: center;
       border-radius: 16px;
-      background: var(--cp-accent-soft);
-      color: var(--cp-accent);
-      font-weight: 800;
+      background: var(--cp-welcia-blue);
+      color: var(--cp-accent-fg);
+      font-weight: 900;
     }
 
-    .risk h4 {
-      margin: 0 0 3px;
+    .action strong {
+      display: block;
+      margin-bottom: 5px;
       font-size: 14px;
     }
 
-    .risk p {
+    .action p {
       margin: 0;
       color: var(--cp-text-muted);
       font-size: 12px;
     }
 
-    .roadmap {
+    .risk-row {
       display: grid;
+      grid-template-columns: 1fr auto;
       gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--cp-border);
     }
 
-    .step {
-      display: grid;
-      grid-template-columns: 96px 1fr;
-      gap: 12px;
-      padding: 14px;
-      border: 1px solid var(--cp-border);
-      border-radius: 16px;
-      background: var(--cp-surface);
+    .risk-row:last-child {
+      border-bottom: 0;
     }
 
-    .step .when {
-      color: var(--cp-accent);
-      font-weight: 800;
-    }
-
-    .step strong {
+    .risk-row strong {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      font-size: 14px;
     }
 
-    .step p {
-      margin: 0;
+    .risk-row span {
       color: var(--cp-text-muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .modal {
@@ -629,7 +672,7 @@
       place-items: center;
       padding: 24px;
       background: var(--cp-overlay);
-      z-index: 10;
+      z-index: 20;
     }
 
     .modal.open {
@@ -637,10 +680,10 @@
     }
 
     .modal-card {
-      width: min(760px, 100%);
-      max-height: min(780px, 90vh);
+      width: min(780px, 100%);
+      max-height: min(760px, 90vh);
       overflow: auto;
-      padding: 22px;
+      padding: 24px;
       background: var(--cp-panel-strong);
       border: 1px solid var(--cp-border);
       border-radius: 16px;
@@ -648,25 +691,30 @@
     }
 
     .modal-card h3 {
-      margin: 0 0 8px;
-      font-size: 24px;
-      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: -0.055em;
     }
 
-    .modal-card p {
+    .modal-card > p {
       margin: 0 0 16px;
       color: var(--cp-text-muted);
+    }
+
+    .scenario-grid {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .scenario {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
-      padding: 12px;
+      padding: 14px;
       border: 1px solid var(--cp-border);
       border-radius: 16px;
       background: var(--cp-surface);
-      margin-bottom: 10px;
     }
 
     .scenario strong {
@@ -680,75 +728,50 @@
     }
 
     @media (max-width: 1120px) {
-      .app {
+      .hero,
+      .dashboard {
         grid-template-columns: 1fr;
       }
 
-      .sidebar {
-        position: relative;
-        height: auto;
-        border-right: 0;
-        border-bottom: 1px solid var(--cp-border);
+      .decision {
+        min-height: auto;
       }
 
-      .nav {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-
-      .side-card {
-        display: none;
-      }
-
-      .main-grid,
-      .two-col {
-        grid-template-columns: 1fr;
+      .kpi-grid,
+      .matrix {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 780px) {
+      header,
       main {
-        padding: 18px;
+        padding-left: 16px;
+        padding-right: 16px;
       }
 
-      .topbar,
+      .header-inner,
       .toolbar,
-      .panel-header {
-        flex-direction: column;
+      .panel-head {
         align-items: stretch;
-      }
-
-      .actions {
-        justify-content: stretch;
-      }
-
-      .btn {
-        flex: 1;
-      }
-
-      .kpi-grid {
-        grid-template-columns: 1fr 1fr;
+        flex-direction: column;
       }
 
       .nav {
-        grid-template-columns: 1fr 1fr;
+        overflow: auto;
+        justify-content: flex-start;
       }
-    }
 
-    @media (max-width: 560px) {
-      .kpi-grid {
+      .hero-card {
+        padding: 22px;
+      }
+
+      .hero-copy,
+      .kpi-grid,
+      .matrix {
         grid-template-columns: 1fr;
       }
 
-      .segmented {
-        width: 100%;
-        overflow: auto;
-      }
-
-      .period {
-        flex-wrap: wrap;
-      }
-
-      .step,
       .scenario {
         grid-template-columns: 1fr;
       }
@@ -756,343 +779,334 @@
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-mark">W</div>
-        <div>
-          <h1>Welcia Executive<br />Growth Dashboard</h1>
-          <p>ダミーデータ / 経営会議向け</p>
+  <div class="shell">
+    <div class="brand-strip" aria-hidden="true"><span></span><span></span><span></span></div>
+    <header>
+      <div class="header-inner">
+        <div class="wordmark">
+          <div class="logo">W</div>
+          <div>
+            <strong>Welcia Board Dashboard</strong>
+            <span>Executive demo / Dummy data</span>
+          </div>
         </div>
+        <nav class="nav" aria-label="Dashboard sections">
+          <a class="active" href="#summary">Summary</a>
+          <a href="#growth">Growth</a>
+          <a href="#operations">Operations</a>
+          <a href="#actions">Actions</a>
+        </nav>
       </div>
-
-      <nav class="nav" aria-label="Dashboard navigation">
-        <a href="#overview" class="active"><span class="nav-icon">01</span>経営サマリー</a>
-        <a href="#growth"><span class="nav-icon">02</span>成長ドライバー</a>
-        <a href="#regions"><span class="nav-icon">03</span>地域・店舗</a>
-        <a href="#actions"><span class="nav-icon">04</span>AI提言</a>
-      </nav>
-
-      <div class="side-card">
-        <p class="label">Board readout</p>
-        <strong>営業利益 +8.4%</strong>
-        <p>調剤・PB・アプリ会員連動が牽引。郊外大型店の粗利改善が次の論点。</p>
-      </div>
-    </aside>
+    </header>
 
     <main>
-      <section id="overview" class="topbar">
-        <div>
-          <span class="eyebrow">Executive view / FY2026 Q1</span>
-          <h2>ウエルシアの次期成長を、店舗・調剤・デジタルの経営指標で一枚化</h2>
-          <p>
-            経営者向けに、売上・粗利・処方箋・PB・地域別の勝ち筋を統合したデモダッシュボードです。
-            表示データはすべて架空のサンプルです。
-          </p>
-        </div>
-        <div class="actions">
-          <button class="btn" onclick="window.print()">PDF保存</button>
-          <button class="btn primary" onclick="openScenario()">成長シナリオを見る</button>
-        </div>
-      </section>
-
-      <div class="toolbar">
-        <div class="segmented" role="tablist" aria-label="Time range">
-          <button class="active" onclick="setRange(event, 'q1')">Q1</button>
-          <button onclick="setRange(event, 'q2')">Q2 Forecast</button>
-          <button onclick="setRange(event, 'fy')">FY Outlook</button>
-        </div>
-        <div class="period">
-          <span>対象: 全国 2,914 店舗</span>
-          <span>最終更新: 2026/05/25 08:30</span>
-        </div>
-      </div>
-
-      <section class="grid kpi-grid" aria-label="KPI summary">
-        <article class="card kpi">
-          <div class="name">売上高 <span class="delta up" id="salesDelta">+6.8%</span></div>
-          <div class="value" id="salesValue">3,842億円</div>
-          <div class="note">食品・日用品の来店頻度増、調剤併設店の客単価増</div>
-        </article>
-        <article class="card kpi">
-          <div class="name">営業利益率 <span class="delta up" id="marginDelta">+0.4pt</span></div>
-          <div class="value" id="marginValue">5.9%</div>
-          <div class="note">PB構成比と調剤ミックス改善が粗利を押し上げ</div>
-        </article>
-        <article class="card kpi">
-          <div class="name">処方箋受付枚数 <span class="delta up" id="rxDelta">+9.2%</span></div>
-          <div class="value" id="rxValue">1,128万枚</div>
-          <div class="note">在宅・オンライン服薬指導の継続率が上昇</div>
-        </article>
-        <article class="card kpi">
-          <div class="name">アプリ会員購買比率 <span class="delta warn" id="appDelta">+3.1pt</span></div>
-          <div class="value" id="appValue">42.6%</div>
-          <div class="note">クーポン施策は伸長、シニア層の利用率に改善余地</div>
-        </article>
-      </section>
-
-      <section id="growth" class="grid main-grid">
-        <article class="card panel">
-          <div class="panel-header">
-            <div>
-              <h3>売上・粗利トレンド</h3>
-              <p class="sub">月次推移: 売上指数と粗利率の同時モニタリング</p>
+      <section id="summary" class="hero">
+        <article class="hero-card">
+          <span class="eyebrow">FY2026 Q1 / Board view</span>
+          <h1>調剤 × PB × アプリで、粗利成長を加速</h1>
+          <div class="hero-copy">
+            <div class="mini">
+              <b>1分で把握</b>
+              <span>長文説明を削り、役員会の論点に集中</span>
             </div>
-            <span class="tag">経営KPI</span>
-          </div>
-          <svg class="chart" viewBox="0 0 820 320" role="img" aria-label="Sales and gross margin trend chart">
-            <line class="axis" x1="42" y1="258" x2="790" y2="258"></line>
-            <line class="axis" x1="42" y1="60" x2="42" y2="258"></line>
-            <line class="axis" x1="42" y1="208" x2="790" y2="208"></line>
-            <line class="axis" x1="42" y1="158" x2="790" y2="158"></line>
-            <line class="axis" x1="42" y1="108" x2="790" y2="108"></line>
-            <path class="line-secondary" d="M62 212 C130 202, 178 186, 234 190 S352 168, 402 160 S520 154, 574 138 S690 130, 770 116"></path>
-            <path class="line-main" d="M62 238 C128 222, 180 216, 236 198 S346 180, 402 172 S514 150, 574 144 S688 126, 770 92"></path>
-            <circle class="dot" cx="62" cy="238" r="6"></circle>
-            <circle class="dot" cx="236" cy="198" r="6"></circle>
-            <circle class="dot" cx="402" cy="172" r="6"></circle>
-            <circle class="dot" cx="574" cy="144" r="6"></circle>
-            <circle class="dot" cx="770" cy="92" r="6"></circle>
-            <text x="52" y="286">Jan</text>
-            <text x="218" y="286">Feb</text>
-            <text x="386" y="286">Mar</text>
-            <text x="554" y="286">Apr</text>
-            <text x="746" y="286">May</text>
-            <text x="656" y="74">売上指数</text>
-            <text x="656" y="126">粗利率</text>
-          </svg>
-        </article>
-
-        <aside class="card panel">
-          <div class="panel-header">
-            <div>
-              <h3>CEO向け論点</h3>
-              <p class="sub">今月の意思決定が必要なテーマ</p>
+            <div class="mini">
+              <b>3つの勝ち筋</b>
+              <span>処方箋、PB、デジタル送客</span>
+            </div>
+            <div class="mini">
+              <b>90日で検証</b>
+              <span>店舗実験から全社展開へ</span>
             </div>
           </div>
-          <div class="insight-list">
-            <div class="insight">
-              <strong>処方箋の成長を物販へ接続</strong>
-              <p>調剤来店者の物販転換率は 31%。健康食品・介護用品とのレコメンド強化で +2.4pt 余地。</p>
+        </article>
+
+        <aside class="card decision">
+          <div>
+            <span class="tag">CEO agenda</span>
+            <h2>今日決めたいこと</h2>
+            <p>読み物ではなく、意思決定に必要な3点だけを前面化。</p>
+          </div>
+          <div class="decision-list">
+            <div class="decision-item">
+              <strong>調剤併設店へ集中投資 <span class="delta">+78億円</span></strong>
+              <span>在宅・服薬フォロー・健康商材のLTV拡張</span>
             </div>
-            <div class="insight">
-              <strong>PB構成比 18% 超えが粗利の分岐点</strong>
-              <p>PB構成比が 18% を超える店舗は営業利益率が平均 +1.1pt。棚割とアプリ訴求を連動。</p>
+            <div class="decision-item">
+              <strong>PB比率18%未満店舗を改善 <span class="delta">+1.1pt</span></strong>
+              <span>棚割とアプリクーポンを同時に最適化</span>
             </div>
-            <div class="insight">
-              <strong>夜間帯の人時売上に地域差</strong>
-              <p>都市型店舗は 20-23時が伸長、郊外店は人員過多傾向。シフト最適化で月 2.1億円改善見込み。</p>
+            <div class="decision-item">
+              <strong>夜間人員を再設計 <span class="delta warn">2.1億円/月</span></strong>
+              <span>都市型・郊外型でシフトテンプレート分離</span>
             </div>
           </div>
+          <button class="button primary" onclick="openScenario()">投資シナリオ</button>
         </aside>
       </section>
 
-      <section class="grid two-col" style="margin-top:16px">
-        <article class="card panel">
-          <div class="panel-header">
-            <div>
-              <h3>カテゴリ別 成長貢献</h3>
-              <p class="sub">売上成長への寄与度と粗利改善ポテンシャル</p>
-            </div>
-          </div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>順位</th>
-                <th>カテゴリ</th>
-                <th>成長寄与</th>
-                <th>粗利改善</th>
-                <th>打ち手</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="rank">1</span></td>
-                <td>調剤・在宅</td>
-                <td>+32%</td>
-                <td><div class="progress" style="--value: 88%"><span></span></div></td>
-                <td>服薬フォロー自動化</td>
-              </tr>
-              <tr>
-                <td><span class="rank">2</span></td>
-                <td>PBヘルスケア</td>
-                <td>+24%</td>
-                <td><div class="progress" style="--value: 76%"><span></span></div></td>
-                <td>棚割・クーポン連動</td>
-              </tr>
-              <tr>
-                <td><span class="rank">3</span></td>
-                <td>食品・デイリー</td>
-                <td>+18%</td>
-                <td><div class="progress" style="--value: 49%"><span></span></div></td>
-                <td>廃棄率低減</td>
-              </tr>
-              <tr>
-                <td><span class="rank">4</span></td>
-                <td>ビューティ</td>
-                <td>+15%</td>
-                <td><div class="progress" style="--value: 63%"><span></span></div></td>
-                <td>SNS連動販促</td>
-              </tr>
-            </tbody>
-          </table>
-        </article>
+      <section class="toolbar" aria-label="Dashboard controls">
+        <div class="segments">
+          <button class="active" onclick="setRange(event, 'q1')">Q1 actual</button>
+          <button onclick="setRange(event, 'q2')">Q2 forecast</button>
+          <button onclick="setRange(event, 'fy')">FY outlook</button>
+        </div>
+        <div class="meta">2,914 stores / refreshed 2026-05-25 08:30 / dummy data</div>
+      </section>
 
-        <article id="regions" class="card panel">
-          <div class="panel-header">
-            <div>
-              <h3>地域別パフォーマンス</h3>
-              <p class="sub">店舗タイプごとの重点改善エリア</p>
-            </div>
-          </div>
-          <svg class="chart" viewBox="0 0 620 320" role="img" aria-label="Regional performance bar chart">
-            <line class="axis" x1="58" y1="260" x2="590" y2="260"></line>
-            <rect class="bar" x="84" y="96" width="54" height="164" rx="8"></rect>
-            <rect class="bar" x="176" y="128" width="54" height="132" rx="8"></rect>
-            <rect class="bar-muted" x="268" y="156" width="54" height="104" rx="8"></rect>
-            <rect class="bar" x="360" y="82" width="54" height="178" rx="8"></rect>
-            <rect class="bar-muted" x="452" y="184" width="54" height="76" rx="8"></rect>
-            <text x="78" y="286">関東</text>
-            <text x="170" y="286">中部</text>
-            <text x="262" y="286">関西</text>
-            <text x="354" y="286">九州</text>
-            <text x="446" y="286">東北</text>
-            <text x="78" y="78">+9.1%</text>
-            <text x="170" y="110">+6.7%</text>
-            <text x="262" y="138">+4.1%</text>
-            <text x="354" y="64">+10.3%</text>
-            <text x="446" y="166">+2.8%</text>
-          </svg>
+      <section class="kpi-grid" aria-label="Executive KPIs">
+        <article class="card kpi">
+          <div class="kpi-label">Revenue <span class="delta" id="salesDelta">+6.8%</span></div>
+          <div class="kpi-value" id="salesValue">3,842億</div>
+          <div class="kpi-note">来店頻度と調剤客単価が牽引</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi-label">Operating margin <span class="delta" id="marginDelta">+0.4pt</span></div>
+          <div class="kpi-value" id="marginValue">5.9%</div>
+          <div class="kpi-note">PB・調剤ミックス改善</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi-label">Prescriptions <span class="delta" id="rxDelta">+9.2%</span></div>
+          <div class="kpi-value" id="rxValue">1,128万</div>
+          <div class="kpi-note">在宅・オンライン服薬が伸長</div>
+        </article>
+        <article class="card kpi">
+          <div class="kpi-label">App purchase mix <span class="delta warn" id="appDelta">+3.1pt</span></div>
+          <div class="kpi-value" id="appValue">42.6%</div>
+          <div class="kpi-note">シニア層UXに改善余地</div>
         </article>
       </section>
 
-      <section id="actions" class="grid main-grid" style="margin-top:16px">
+      <section class="dashboard">
+        <div class="stack">
+          <article id="growth" class="card panel">
+            <div class="panel-head">
+              <div>
+                <h3>Growth trajectory</h3>
+                <p class="sub">売上指数と粗利率の同時モニタリング</p>
+              </div>
+              <span class="tag">Board KPI</span>
+            </div>
+            <svg class="chart" viewBox="0 0 860 330" role="img" aria-label="Growth trajectory chart">
+              <line class="axis" x1="48" y1="266" x2="820" y2="266"></line>
+              <line class="axis" x1="48" y1="70" x2="48" y2="266"></line>
+              <line class="axis" x1="48" y1="218" x2="820" y2="218"></line>
+              <line class="axis" x1="48" y1="170" x2="820" y2="170"></line>
+              <line class="axis" x1="48" y1="122" x2="820" y2="122"></line>
+              <path class="area" d="M70 236 C146 220, 214 206, 284 196 S426 158, 500 146 S646 130, 802 88 L802 266 L70 266 Z"></path>
+              <path class="line-main" d="M70 236 C146 220, 214 206, 284 196 S426 158, 500 146 S646 130, 802 88"></path>
+              <path class="line-soft" d="M70 214 C146 206, 214 190, 284 186 S426 164, 500 156 S646 146, 802 124"></path>
+              <circle class="dot" cx="70" cy="236" r="7"></circle>
+              <circle class="dot" cx="284" cy="196" r="7"></circle>
+              <circle class="dot" cx="500" cy="146" r="7"></circle>
+              <circle class="dot" cx="802" cy="88" r="7"></circle>
+              <text x="58" y="296">Jan</text>
+              <text x="252" y="296">Feb</text>
+              <text x="468" y="296">Mar</text>
+              <text x="616" y="296">Apr</text>
+              <text x="780" y="296">May</text>
+              <text x="636" y="74">Revenue index</text>
+              <text x="636" y="128">Gross margin</text>
+            </svg>
+          </article>
+
+          <article id="operations" class="card panel">
+            <div class="panel-head">
+              <div>
+                <h3>Operational levers</h3>
+                <p class="sub">経営インパクトの大きいドライバーに限定</p>
+              </div>
+              <span class="tag">3 levers</span>
+            </div>
+            <div class="matrix">
+              <div class="driver">
+                <strong>調剤LTV</strong>
+                <div class="score">31<small>%併売</small></div>
+                <p>処方箋来店から健康商材への転換を高める。</p>
+              </div>
+              <div class="driver">
+                <strong>PB構成比</strong>
+                <div class="score">18<small>%閾値</small></div>
+                <p>粗利率が変わる分岐点。未達店舗を優先。</p>
+              </div>
+              <div class="driver">
+                <strong>人時売上</strong>
+                <div class="score">2.1<small>億/月</small></div>
+                <p>夜間帯のシフト再設計で即効性あり。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="stack">
+          <article class="card panel">
+            <div class="panel-head">
+              <div>
+                <h3>Region pulse</h3>
+                <p class="sub">地域別の売上成長率</p>
+              </div>
+            </div>
+            <svg class="chart" viewBox="0 0 440 330" role="img" aria-label="Region bar chart">
+              <line class="axis" x1="44" y1="264" x2="410" y2="264"></line>
+              <rect class="bar" x="62" y="96" width="42" height="168" rx="8"></rect>
+              <rect class="bar-soft" x="132" y="126" width="42" height="138" rx="8"></rect>
+              <rect class="bar-soft" x="202" y="158" width="42" height="106" rx="8"></rect>
+              <rect class="bar-green" x="272" y="78" width="42" height="186" rx="8"></rect>
+              <rect class="bar-soft" x="342" y="188" width="42" height="76" rx="8"></rect>
+              <text x="58" y="292">関東</text>
+              <text x="128" y="292">中部</text>
+              <text x="198" y="292">関西</text>
+              <text x="268" y="292">九州</text>
+              <text x="338" y="292">東北</text>
+              <text x="56" y="78">+9.1</text>
+              <text x="126" y="108">+6.7</text>
+              <text x="196" y="140">+4.1</text>
+              <text x="266" y="60">+10.3</text>
+              <text x="336" y="170">+2.8</text>
+            </svg>
+          </article>
+
+          <article class="card panel">
+            <div class="panel-head">
+              <div>
+                <h3>Risk watch</h3>
+                <p class="sub">早期警戒指標</p>
+              </div>
+            </div>
+            <div class="risk-row">
+              <div><strong>薬剤師稼働率</strong><span>一部地域で92%超</span></div>
+              <span class="delta risk">High</span>
+            </div>
+            <div class="risk-row">
+              <div><strong>食品廃棄率</strong><span>郊外大型店で悪化</span></div>
+              <span class="delta warn">Mid</span>
+            </div>
+            <div class="risk-row">
+              <div><strong>アプリ離脱</strong><span>30日離脱は改善傾向</span></div>
+              <span class="delta">Low</span>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <section id="actions" class="dashboard" style="margin-top:18px">
         <article class="card panel">
-          <div class="panel-header">
+          <div class="panel-head">
             <div>
-              <h3>AIによる経営アクション提案</h3>
-              <p class="sub">ダミーデータから生成した、90日以内に効果検証可能な施策</p>
+              <h3>90-day executive actions</h3>
+              <p class="sub">短期検証できる3施策に絞り込み</p>
             </div>
-            <span class="tag">Decision support</span>
+            <span class="tag">AI assisted</span>
           </div>
-          <div class="roadmap">
-            <div class="step">
-              <div class="when">0-30日</div>
+          <div class="action-list">
+            <div class="action">
+              <div class="action-no">1</div>
               <div>
-                <strong>調剤来店者向け「健康買い足し」レコメンドを 200 店舗で検証</strong>
-                <p>対象: 処方箋枚数上位店舗。介護・サプリ・血圧計カテゴリの併売率を主要KPIに設定。</p>
+                <strong>調剤来店者への「健康買い足し」提案</strong>
+                <p>200店舗で検証。介護・サプリ・測定器の併売率をKPI化。</p>
               </div>
             </div>
-            <div class="step">
-              <div class="when">31-60日</div>
+            <div class="action">
+              <div class="action-no">2</div>
               <div>
-                <strong>PB構成比 18% 未満店舗の棚割リセット</strong>
-                <p>粗利率が低い 430 店舗に対し、PBヘルスケアのフェイス数とアプリクーポンを同時最適化。</p>
+                <strong>PB未達店舗の棚割リセット</strong>
+                <p>430店舗を対象に、棚割・価格・アプリクーポンを同時最適化。</p>
               </div>
             </div>
-            <div class="step">
-              <div class="when">61-90日</div>
+            <div class="action">
+              <div class="action-no">3</div>
               <div>
-                <strong>夜間帯の人時売上改善モデルを展開</strong>
-                <p>都市型・郊外型・調剤併設型に分けてシフトテンプレートを再設計。店長負荷を下げる。</p>
+                <strong>夜間シフトの型を3分類へ</strong>
+                <p>都市型、郊外型、調剤併設型で人時売上を改善。</p>
               </div>
             </div>
           </div>
         </article>
 
-        <aside class="card panel">
-          <div class="panel-header">
+        <article class="card panel">
+          <div class="panel-head">
             <div>
-              <h3>リスクウォッチ</h3>
-              <p class="sub">経営会議で確認すべき早期警戒指標</p>
+              <h3>Azure target</h3>
+              <p class="sub">App Service で公開する静的Webアプリ</p>
             </div>
           </div>
-          <div class="risk">
-            <div class="risk-score">高</div>
-            <div>
-              <h4>薬剤師稼働率</h4>
-              <p>一部地域で 92% 超。採用難と待ち時間増のリスク。</p>
+          <div class="decision-list">
+            <div class="decision-item">
+              <strong>Runtime <span class="delta">Node LTS</span></strong>
+              <span>Expressで単体HTMLを配信</span>
             </div>
-            <span class="delta down">要対策</span>
-          </div>
-          <div class="risk">
-            <div class="risk-score">中</div>
-            <div>
-              <h4>食品廃棄率</h4>
-              <p>郊外大型店で前年差 +0.3pt。需要予測改善が必要。</p>
+            <div class="decision-item">
+              <strong>Hosting <span class="delta">Azure Web App</span></strong>
+              <span>GitHub PagesではなくAzure側に公開</span>
             </div>
-            <span class="delta warn">監視</span>
-          </div>
-          <div class="risk">
-            <div class="risk-score">低</div>
-            <div>
-              <h4>アプリ離脱率</h4>
-              <p>新規登録後 30日離脱は改善傾向。シニアUIが次の論点。</p>
+            <div class="decision-item">
+              <strong>Data <span class="delta warn">Demo only</span></strong>
+              <span>数値はすべて架空データ</span>
             </div>
-            <span class="delta up">改善中</span>
           </div>
-        </aside>
+        </article>
       </section>
     </main>
   </div>
 
   <div class="modal" id="scenarioModal" role="dialog" aria-modal="true" aria-labelledby="scenarioTitle">
     <div class="modal-card">
-      <h3 id="scenarioTitle">経営成長シナリオ</h3>
-      <p>役員会で議論しやすいよう、3つの投資シナリオに分けています。数値はすべてデモ用です。</p>
-      <div class="scenario">
-        <div>
-          <strong>Base: 既存施策の精度向上</strong>
-          <span>PB棚割改善、アプリクーポン最適化、処方箋併売強化を中心に展開。</span>
+      <h3 id="scenarioTitle">Investment scenarios</h3>
+      <p>役員会で比較しやすいよう、投資額ではなく営業利益インパクトで整理しています。</p>
+      <div class="scenario-grid">
+        <div class="scenario">
+          <div>
+            <strong>Base: 既存施策の精度向上</strong>
+            <span>PB棚割、クーポン、処方箋併売を標準化。</span>
+          </div>
+          <span class="delta">+42億円</span>
         </div>
-        <span class="delta up">営業利益 +42億円</span>
-      </div>
-      <div class="scenario">
-        <div>
-          <strong>Growth: 調剤・在宅起点の顧客LTV拡大</strong>
-          <span>オンライン服薬指導、在宅連携、健康食品レコメンドを重点投資。</span>
+        <div class="scenario">
+          <div>
+            <strong>Growth: 調剤・在宅起点のLTV拡張</strong>
+            <span>オンライン服薬、在宅連携、健康商材を重点投資。</span>
+          </div>
+          <span class="delta">+78億円</span>
         </div>
-        <span class="delta up">営業利益 +78億円</span>
-      </div>
-      <div class="scenario">
-        <div>
-          <strong>Transform: 店舗オペレーションAI化</strong>
-          <span>需要予測、発注、シフト、販促を統合し、店長業務を再設計。</span>
+        <div class="scenario">
+          <div>
+            <strong>Transform: 店舗オペレーションAI化</strong>
+            <span>需要予測、発注、シフト、販促を統合。</span>
+          </div>
+          <span class="delta">+126億円</span>
         </div>
-        <span class="delta up">営業利益 +126億円</span>
       </div>
-      <button class="btn primary" onclick="closeScenario()">閉じる</button>
+      <button class="button primary" onclick="closeScenario()">Close</button>
     </div>
   </div>
 
   <script>
     const ranges = {
       q1: {
-        sales: "3,842億円",
+        sales: "3,842億",
         salesDelta: "+6.8%",
         margin: "5.9%",
         marginDelta: "+0.4pt",
-        rx: "1,128万枚",
+        rx: "1,128万",
         rxDelta: "+9.2%",
         app: "42.6%",
         appDelta: "+3.1pt"
       },
       q2: {
-        sales: "3,990億円",
+        sales: "3,990億",
         salesDelta: "+7.5%",
         margin: "6.1%",
         marginDelta: "+0.6pt",
-        rx: "1,184万枚",
+        rx: "1,184万",
         rxDelta: "+10.1%",
         app: "45.8%",
         appDelta: "+4.4pt"
       },
       fy: {
-        sales: "1兆6,420億円",
+        sales: "1.64兆",
         salesDelta: "+7.1%",
         margin: "6.3%",
         marginDelta: "+0.8pt",
-        rx: "4,820万枚",
+        rx: "4,820万",
         rxDelta: "+9.8%",
         app: "48.0%",
         appDelta: "+5.5pt"
@@ -1100,11 +1114,8 @@
     };
 
     function setRange(event, key) {
-      document.querySelectorAll(".segmented button").forEach((button) => {
-        button.classList.remove("active");
-      });
+      document.querySelectorAll(".segments button").forEach((button) => button.classList.remove("active"));
       event.currentTarget.classList.add("active");
-
       const data = ranges[key];
       document.getElementById("salesValue").textContent = data.sales;
       document.getElementById("salesDelta").textContent = data.salesDelta;
