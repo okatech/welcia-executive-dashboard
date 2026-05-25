@@ -91,6 +91,11 @@
       font: inherit;
     }
 
+    textarea {
+      font: inherit;
+      color: var(--cp-text);
+    }
+
     .shell {
       min-height: 100vh;
       display: grid;
@@ -389,6 +394,122 @@
     .meta {
       color: var(--cp-text-muted);
       font-size: 13px;
+    }
+
+    .ask-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .prompt-box {
+      padding: 20px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+
+    .prompt-box h2,
+    .answer-box h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.045em;
+    }
+
+    .prompt-box p,
+    .answer-box p {
+      margin: 6px 0 14px;
+      color: var(--cp-text-muted);
+      font-size: 13px;
+    }
+
+    .prompt-input {
+      width: 100%;
+      min-height: 124px;
+      resize: vertical;
+      padding: 14px;
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      outline: none;
+    }
+
+    .prompt-input:focus {
+      border-color: var(--cp-welcia-blue);
+      box-shadow: 0 0 0 3px var(--cp-accent-soft);
+    }
+
+    .prompt-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      padding: 7px 10px;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .chip:hover {
+      color: var(--cp-welcia-blue);
+      border-color: var(--cp-border-strong);
+    }
+
+    .answer-box {
+      padding: 20px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .answer-card {
+      padding: 13px;
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+    }
+
+    .answer-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--cp-welcia-blue);
+      font-size: 13px;
+    }
+
+    .answer-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--cp-text-muted);
+      font-size: 12px;
+    }
+
+    .answer-card li + li {
+      margin-top: 4px;
     }
 
     .kpi-grid {
@@ -729,7 +850,8 @@
 
     @media (max-width: 1120px) {
       .hero,
-      .dashboard {
+      .dashboard,
+      .ask-panel {
         grid-template-columns: 1fr;
       }
 
@@ -768,7 +890,8 @@
 
       .hero-copy,
       .kpi-grid,
-      .matrix {
+      .matrix,
+      .answer-grid {
         grid-template-columns: 1fr;
       }
 
@@ -807,6 +930,63 @@
           <button onclick="setRange(event, 'fy')">FY outlook</button>
         </div>
         <div class="meta">2,914 stores / refreshed 2026-05-25 08:30 / dummy data</div>
+      </section>
+
+      <section class="ask-panel" aria-label="Executive prompt workspace">
+        <article class="prompt-box">
+          <span class="tag">CEO prompt</span>
+          <h2>経営の問いを入力</h2>
+          <p>統合・調剤・PB/食品・アプリ/WAONなど、直近テーマに紐づけて論点化します。</p>
+          <textarea id="ceoPrompt" class="prompt-input">ツルハ統合後、ウエルシアの調剤と食品PBをどうつなげるべきか。次回の事業部長会議で何を議論すべき？</textarea>
+          <div class="chips">
+            <button class="chip" onclick="usePrompt('統合シナジー500億円を、商品・物流・店舗運営のどこから取りに行くべき？')">統合シナジー</button>
+            <button class="chip" onclick="usePrompt('調剤併設店の強みを、在宅医療と物販のLTV拡大にどう接続する？')">調剤LTV</button>
+            <button class="chip" onclick="usePrompt('トップバリュ、からだWelcia、くらしWelciaをどう棲み分けて粗利を上げる？')">PB/食品</button>
+            <button class="chip" onclick="usePrompt('WAON・アプリ・ポイントの顧客データを経営会議でどう使う？')">アプリ/WAON</button>
+          </div>
+          <div class="prompt-actions">
+            <span class="meta">Demo AI response / keyword-based</span>
+            <button class="button primary" onclick="generateBoardAgenda()">壁打ちする</button>
+          </div>
+        </article>
+
+        <article class="answer-box">
+          <span class="tag">Board agenda generator</span>
+          <h2>経営論点と事業部アジェンダ</h2>
+          <p id="answerSummary">入力内容を、経営会議で使える問い・担当部門・確認KPIへ変換します。</p>
+          <div class="answer-grid">
+            <div class="answer-card">
+              <strong>経営論点</strong>
+              <ul id="agendaIssues">
+                <li>統合後の強みを調剤・食品・デジタルに分解</li>
+                <li>営業利益率7%に向けた優先順位を決める</li>
+              </ul>
+            </div>
+            <div class="answer-card">
+              <strong>紐づく事業部</strong>
+              <ul id="agendaDivisions">
+                <li>調剤事業</li>
+                <li>商品/PB</li>
+                <li>デジタル/ポイント</li>
+              </ul>
+            </div>
+            <div class="answer-card">
+              <strong>次回会議で聞くこと</strong>
+              <ul id="agendaQuestions">
+                <li>調剤来店者の物販併売率をどこまで上げられるか</li>
+                <li>PBと食品の導入店舗をどう優先するか</li>
+              </ul>
+            </div>
+            <div class="answer-card">
+              <strong>見るべきKPI</strong>
+              <ul id="agendaKpis">
+                <li>調剤併売率</li>
+                <li>PB構成比</li>
+                <li>アプリ購買比率</li>
+              </ul>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section class="kpi-grid" aria-label="Executive KPIs">
@@ -1050,6 +1230,71 @@
       document.getElementById("rxDelta").textContent = data.rxDelta;
       document.getElementById("appValue").textContent = data.app;
       document.getElementById("appDelta").textContent = data.appDelta;
+    }
+
+    const agendaTemplates = {
+      integration: {
+        summary: "ツルハ統合後のシナジーを、仕入れ・物流・店舗網・人材配置に分解して経営会議アジェンダ化します。",
+        issues: ["500億円規模の統合シナジーをどの順番で実現するか", "ウエルシアの調剤力とツルハの店舗運営力をどう標準化するか"],
+        divisions: ["統合PMO", "商品/仕入", "物流", "店舗運営"],
+        questions: ["共同仕入れで最初に統合するカテゴリは何か", "物流拠点と店舗配送の重複をどこから解消するか", "現場負荷を増やさず統合KPIをどう運用するか"],
+        kpis: ["統合シナジー実現額", "物流コスト率", "共同仕入れ比率", "店舗作業時間"]
+      },
+      pharmacy: {
+        summary: "調剤併設店の強みを、在宅医療・服薬フォロー・健康商材のLTV拡大に接続します。",
+        issues: ["約2,300店規模の調剤接点を地域医療インフラ化できるか", "処方箋来店を物販・在宅・予防領域へどう広げるか"],
+        divisions: ["調剤事業", "在宅医療", "店舗運営", "商品/PB"],
+        questions: ["在宅医療を重点展開する地域をどう選ぶか", "薬剤師稼働率が高い地域の採用・配置をどう変えるか", "調剤来店者への推奨カテゴリは何か"],
+        kpis: ["処方箋枚数", "薬剤師稼働率", "在宅件数", "調剤来店者の物販併売率"]
+      },
+      pb: {
+        summary: "トップバリュ、からだWelcia、くらしWelciaを組み合わせ、食品とヘルスケアPBの粗利改善を狙います。",
+        issues: ["イオン食品PBとウエルシア独自PBの役割をどう分けるか", "ドラッグ&フード化で既存店舗の売場生産性を上げられるか"],
+        divisions: ["商品/PB", "食品", "店舗開発", "デジタル販促"],
+        questions: ["食品PBを入れる店舗タイプの条件は何か", "からだWelciaを調剤顧客へどう提案するか", "NBからPBへの置換で顧客満足を落とさない設計は何か"],
+        kpis: ["PB構成比", "食品荒利率", "棚効率", "アプリクーポン利用率"]
+      },
+      digital: {
+        summary: "WAON・アプリ・ポイントを、販促ツールではなく経営の顧客理解基盤として使う論点に変換します。",
+        issues: ["統合後の顧客接点を一元化し、来店頻度とLTVを高められるか", "アプリ施策を販促から経営KPIへ引き上げられるか"],
+        divisions: ["デジタル", "マーケティング", "店舗運営", "経営企画"],
+        questions: ["WAON/アプリIDでどこまで購買と調剤をつなげるか", "シニア層のアプリ利用障壁をどう下げるか", "次回販促を全店一律ではなく誰に出すか"],
+        kpis: ["アプリ購買比率", "WAON連携率", "LTV", "クーポン粗利貢献"]
+      }
+    };
+
+    function usePrompt(text) {
+      document.getElementById("ceoPrompt").value = text;
+      generateBoardAgenda();
+    }
+
+    function fillList(id, items) {
+      document.getElementById(id).innerHTML = items.map((item) => `<li>${item}</li>`).join("");
+    }
+
+    function generateBoardAgenda() {
+      const prompt = document.getElementById("ceoPrompt").value;
+      const normalized = prompt.toLowerCase();
+      let template = agendaTemplates.integration;
+
+      if (prompt.includes("調剤") || prompt.includes("在宅") || prompt.includes("服薬")) {
+        template = agendaTemplates.pharmacy;
+      }
+      if (prompt.includes("PB") || prompt.includes("トップバリュ") || prompt.includes("食品") || prompt.includes("からだWelcia") || prompt.includes("くらしWelcia")) {
+        template = agendaTemplates.pb;
+      }
+      if (prompt.includes("WAON") || prompt.includes("アプリ") || prompt.includes("ポイント") || normalized.includes("digital")) {
+        template = agendaTemplates.digital;
+      }
+      if (prompt.includes("統合") || prompt.includes("ツルハ") || prompt.includes("物流") || prompt.includes("シナジー")) {
+        template = agendaTemplates.integration;
+      }
+
+      document.getElementById("answerSummary").textContent = template.summary;
+      fillList("agendaIssues", template.issues);
+      fillList("agendaDivisions", template.divisions);
+      fillList("agendaQuestions", template.questions);
+      fillList("agendaKpis", template.kpis);
     }
 
   </script>
