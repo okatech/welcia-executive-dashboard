@@ -800,51 +800,7 @@
     </header>
 
     <main>
-      <section id="summary" class="hero">
-        <article class="hero-card">
-          <span class="eyebrow">FY2026 Q1 / Board view</span>
-          <h1>調剤 × PB × アプリで、粗利成長を加速</h1>
-          <div class="hero-copy">
-            <div class="mini">
-              <b>1分で把握</b>
-              <span>長文説明を削り、役員会の論点に集中</span>
-            </div>
-            <div class="mini">
-              <b>3つの勝ち筋</b>
-              <span>処方箋、PB、デジタル送客</span>
-            </div>
-            <div class="mini">
-              <b>90日で検証</b>
-              <span>店舗実験から全社展開へ</span>
-            </div>
-          </div>
-        </article>
-
-        <aside class="card decision">
-          <div>
-            <span class="tag">CEO agenda</span>
-            <h2>今日決めたいこと</h2>
-            <p>読み物ではなく、意思決定に必要な3点だけを前面化。</p>
-          </div>
-          <div class="decision-list">
-            <div class="decision-item">
-              <strong>調剤併設店へ集中投資 <span class="delta">+78億円</span></strong>
-              <span>在宅・服薬フォロー・健康商材のLTV拡張</span>
-            </div>
-            <div class="decision-item">
-              <strong>PB比率18%未満店舗を改善 <span class="delta">+1.1pt</span></strong>
-              <span>棚割とアプリクーポンを同時に最適化</span>
-            </div>
-            <div class="decision-item">
-              <strong>夜間人員を再設計 <span class="delta warn">2.1億円/月</span></strong>
-              <span>都市型・郊外型でシフトテンプレート分離</span>
-            </div>
-          </div>
-          <button class="button primary" onclick="openScenario()">投資シナリオ</button>
-        </aside>
-      </section>
-
-      <section class="toolbar" aria-label="Dashboard controls">
+      <section id="summary" class="toolbar" aria-label="Dashboard controls">
         <div class="segments">
           <button class="active" onclick="setRange(event, 'q1')">Q1 actual</button>
           <button onclick="setRange(event, 'q2')">Q2 forecast</button>
@@ -1048,37 +1004,6 @@
     </main>
   </div>
 
-  <div class="modal" id="scenarioModal" role="dialog" aria-modal="true" aria-labelledby="scenarioTitle">
-    <div class="modal-card">
-      <h3 id="scenarioTitle">Investment scenarios</h3>
-      <p>役員会で比較しやすいよう、投資額ではなく営業利益インパクトで整理しています。</p>
-      <div class="scenario-grid">
-        <div class="scenario">
-          <div>
-            <strong>Base: 既存施策の精度向上</strong>
-            <span>PB棚割、クーポン、処方箋併売を標準化。</span>
-          </div>
-          <span class="delta">+42億円</span>
-        </div>
-        <div class="scenario">
-          <div>
-            <strong>Growth: 調剤・在宅起点のLTV拡張</strong>
-            <span>オンライン服薬、在宅連携、健康商材を重点投資。</span>
-          </div>
-          <span class="delta">+78億円</span>
-        </div>
-        <div class="scenario">
-          <div>
-            <strong>Transform: 店舗オペレーションAI化</strong>
-            <span>需要予測、発注、シフト、販促を統合。</span>
-          </div>
-          <span class="delta">+126億円</span>
-        </div>
-      </div>
-      <button class="button primary" onclick="closeScenario()">Close</button>
-    </div>
-  </div>
-
   <script>
     const ranges = {
       q1: {
@@ -1127,17 +1052,6 @@
       document.getElementById("appDelta").textContent = data.appDelta;
     }
 
-    function openScenario() {
-      document.getElementById("scenarioModal").classList.add("open");
-    }
-
-    function closeScenario() {
-      document.getElementById("scenarioModal").classList.remove("open");
-    }
-
-    document.getElementById("scenarioModal").addEventListener("click", (event) => {
-      if (event.target.id === "scenarioModal") closeScenario();
-    });
   </script>
 </body>
 </html>
